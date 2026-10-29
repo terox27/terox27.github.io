@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merkaba01 — Self-Growing Local AI</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #111827;
+      --card-hover: #172033;
+      --border: #1f293d;
+      --border-accent: rgba(56, 189, 248, 0.35);
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --gold: #f59e0b;
+      --green: #10b981;
+      --purple: #a855f7;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: radial-gradient(ellipse at 50% -10%, #172554 0%, var(--bg) 65%);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      padding: 2.5rem 1.25rem 5rem;
+    }
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--gold);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .category-pill {
+      display: inline-block;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--border-accent);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.18rem;
+      max-width: 740px;
+      margin: 0 auto 1.5rem;
+    }
+    .meta-points {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      margin-top: 1rem;
+    }
+    .meta-points span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .audio-card {
+      background: linear-gradient(145deg, #131c31, #0c1220);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px var(--accent-glow);
+      border-radius: 20px;
+      padding: 2.25rem 1.75rem;
+      margin-bottom: 3.5rem;
+      text-align: center;
+    }
+    .audio-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+    .audio-sub {
+      font-size: 0.96rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    audio {
+      width: 100%;
+      max-width: 660px;
+      height: 48px;
+      border-radius: 999px;
+      outline: none;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.35rem;
+      margin-bottom: 3.5rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.6rem;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-accent);
+      background: var(--card-hover);
+    }
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+    .card p {
+      font-size: 0.94rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .highlight-card {
+      background: linear-gradient(145deg, #131b2e, #0e1626);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      margin-bottom: 3.5rem;
+    }
+    .highlight-card h3 {
+      color: var(--accent);
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .highlight-card p {
+      color: var(--muted);
+      font-size: 0.98rem;
+      margin-bottom: 1.25rem;
+    }
+    .privacy-box {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+    .privacy-box h3 {
+      color: var(--green);
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .privacy-box p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+    .hw-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      margin-bottom: 3.5rem;
+    }
+    .hw-section h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--purple);
+    }
+    .hw-section p {
+      color: var(--muted);
+      font-size: 0.96rem;
+      margin-bottom: 1.25rem;
+    }
+    .hw-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.85rem;
+    }
+    .hw-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+    }
+    .hw-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+    .hw-item span {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+    }
+    footer strong { color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="brand">✦ MERKABA01</div>
+      <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+        <span style="background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.03em;">
+          100% Open Source
+        </span>
+        <div class="status-badge">
+          <span class="pulse-dot"></span>
+          In Active Development • Releasing Soon
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <span class="category-pill">Free &amp; Open-Source Autonomous Intelligence</span>
+      <h1>Self-Growing Local AI That Learns on Your Own Hardware</h1>
+      <p class="subtitle">
+        Built from scratch in pure Rust for individuals — not tech conglomerates. 100% free and open-source, designed to run completely locally with continuous learning, modular specialists, and architectural precision.
+      </p>
+      <div class="meta-points">
+        <span>🔓 100% Open Source</span>
+        <span>🔒 Zero Telemetry</span>
+        <span>⚡ Sub-100ms Startup</span>
+        <span>🧬 Surgical 1.58-Bit Quantization</span>
+        <span>🧠 Dynamic Memory Router</span>
+      </div>
+    </section>
+
+    <!-- AUDIO PLAYER HERO CARD -->
+    <section class="audio-card">
+      <div class="audio-title">🎧 Deep-Dive: How Merkaba01 Builds Self-Growing Local AI</div>
+      <p class="audio-sub">
+        Listen to an architectural breakdown explaining how surgical 1.58-bit model surgery, Matryoshka-DoRA micro-specialists, the sleep consolidation cycle (<code>/sleep</code>), and multi-tier memory work together.
+      </p>
+      <audio controls preload="metadata">
+        <source src="How_Merkaba01_Builds_Self_Growing_Local_AI.mp3" type="audio/mpeg" />
+        Your browser does not support the audio player.
+      </audio>
+    </section>
+
+    <!-- CORE ARCHITECTURE PILLARS -->
+    <h2 class="section-title">Core Innovations</h2>
+    <section class="grid">
+      <div class="card">
+        <span class="card-icon">🧬</span>
+        <h3>Surgical 1.58-Bit &amp; Zero-Copy (.qcore)</h3>
+        <p>
+          Replaces heavy non-linear MLP layers with ternary {-1, 0, +1} matrices and heals quantization errors via adaptive Skeleton-DoRA rank slices. Loads gigabyte models into RAM in under 0.1s using memory-mapped zero-copy buffers.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">🧠</span>
+        <h3>4-Track Cognitive Memory Router</h3>
+        <p>
+          Intelligently segregates high-level reasoning and causal rules (forged into portable <code>.spec</code> modules) from factual entities, timestamps, and numbers (stored as instant &lt; 1ms key-value records in local databases).
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">💤</span>
+        <h3>Offline Sleep Consolidation (/sleep)</h3>
+        <p>
+          New knowledge is queued during conversations and consolidated in background sleep passes. Protected by automated Red-Team validation, canary prompts, and 3-generation rolling backups (<code>/undo-sleep</code>) for zero-risk rollbacks.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">💎</span>
+        <h3>Memory Crystals (KvCapsule)</h3>
+        <p>
+          Compresses lengthy documents, notes, and training traces into miniaturized memory crystals featuring 64-dimensional quantized semantic sketches and anchor facts that recall in under 1 millisecond.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">📐</span>
+        <h3>Coarse-to-Fine Concept Separation</h3>
+        <p>
+          Separates abstract syntactic concept skeletons from volatile surface details, enabling models to adapt logic patterns across multiple domains without catastrophic forgetting or memory bloat.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">📦</span>
+        <h3>Portable Specialists &amp; SpecVault (msv)</h3>
+        <p>
+          Pack and trade domain specialists (<code>.specp</code>) across different model scales and platforms. Governed by a decentralized 3-zone privacy vault: Private Local, 256-bit Encrypted Team, and Inspected Public.
+        </p>
+      </div>
+    </section>
+
+    <!-- PRIVACY & OPEN SOURCE SECTION -->
+    <section class="privacy-box">
+      <h3>🛡️ 100% Free &amp; Open Source — Local Privacy by Design</h3>
+      <p>
+        Merkaba01 is 100% open source under the permissive MIT license. There are no subscriptions, no token meters, no corporate telemetry, and no lock-ins. Everything runs locally and offline on your own machine. When you need recent external information, an optional zero-cost web lookup can be toggled on demand (and disabled anytime via <code>/web off</code>) — keeping you in total control of your data and code.
+      </p>
+    </section>
+
+    <!-- HARDWARE SECTION -->
+    <section class="hw-section">
+      <h3>⚡ Modular Drop-in Hardware Acceleration (MPS-HW-1.0)</h3>
+      <p>
+        Merkaba01 features a clean-room hardware-agnostic core written in 100% pure Rust. Rather than locking users to specific proprietary runtimes, acceleration is organized into modular drop-in add-ons. Cross-platform support is rolling out progressively:
+      </p>
+      <div class="hw-grid">
+        <div class="hw-item">
+          <strong>Apple Silicon Acceleration</strong>
+          <span>ARM64 NEON SIMD + AMX/Accelerate + Metal GPU Compute</span>
+        </div>
+        <div class="hw-item">
+          <strong>NVIDIA Acceleration</strong>
+          <span>CUDA Driver &amp; PTX support for unified memory and dedicated RTX VRAM</span>
+        </div>
+        <div class="hw-item">
+          <strong>Intel Architectures</strong>
+          <span>x86_64 AVX2/AVX-512 VNNI SIMD and Level-Zero / Vulkan Compute</span>
+        </div>
+        <div class="hw-item">
+          <strong>AMD Platforms</strong>
+          <span>Zen AVX-512 SIMD and Vulkan Compute acceleration</span>
+        </div>
+        <div class="hw-item">
+          <strong>Universal CPU Engine</strong>
+          <span>100% pure standard Rust fallback running reliably everywhere</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>
+        <strong>Merkaba01</strong> is a 100% Free &amp; Open Source project created by <strong>Tommy K A Andersson</strong> (with AI pair-programming by <strong>Argon</strong>).
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.82rem;">
+        Released under the MIT License. Currently in active development — public repository, release packages, and documentation coming soon.
+      </p>
+    </footer>
+
+  </div>
+</body>
+</html>
