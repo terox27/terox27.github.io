@@ -328,15 +328,39 @@
     </section>
 
     <!-- AUDIO PLAYER HERO CARD -->
-    <section class="audio-card">
-      <div class="audio-title">🎧 Audio Overview: Self-Growing Local AI with Merkaba01</div>
+    <section id="podcasts" class="audio-card">
+      <div class="audio-title">🎧 Audio Podcasts: Self-Growing Local AI with Merkaba01</div>
       <p class="audio-sub">
-        Listen to an introduction explaining how portable <code>.spec</code> specialist modules, the 4-track cognitive memory router, offline sleep consolidation (<code>/sleep</code>), and latent reasoning work together on ordinary hardware.
+        Listen to our two audio overviews explaining how portable <code>.spec</code> specialist modules, the 4-track cognitive memory router, offline sleep consolidation (<code>/sleep</code>), and pure-Rust zero-copy execution work together on local hardware.
       </p>
-      <audio controls preload="metadata">
-        <source src="Merkaba01_Overview.mp3" type="audio/mpeg" />
-        Your browser does not support the audio player.
-      </audio>
+
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 680px; margin: 0 auto; text-align: left;">
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 14px; padding: 1.15rem 1.25rem;">
+          <div style="font-weight: 700; color: var(--accent); margin-bottom: 0.35rem; font-size: 1.02rem;">
+            ⚡ Short Episode (5:48) — How Merkaba01 Solves AI Catastrophic Forgetting
+          </div>
+          <div style="font-size: 0.88rem; color: var(--muted); margin-bottom: 0.75rem;">
+            Focused overview of how Merkaba01 separates frozen reasoning highways from modular <code>.spec</code> specialists, verifiable <code>databases/</code> facts, and Two-Stroke <code>/sleep</code> consolidation without catastrophic forgetting.
+          </div>
+          <audio controls preload="metadata">
+            <source src="How_Merkaba01_Solves_AI_Catastrophic_Forgetting.mp3" type="audio/mpeg" />
+            Your browser does not support the audio player.
+          </audio>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 14px; padding: 1.15rem 1.25rem;">
+          <div style="font-weight: 700; color: var(--gold); margin-bottom: 0.35rem; font-size: 1.02rem;">
+            🧠 Full Deep-Dive (24:56) — How Merkaba01 Runs Local AI in Pure Rust
+          </div>
+          <div style="font-size: 0.88rem; color: var(--muted); margin-bottom: 0.75rem;">
+            Complete architectural deep-dive into the pure-Rust zero-copy runtime, 4-track cognitive memory routing, <code>SilentVectorLoop</code> + <code>JEPA</code> latent evaluation, <code>KvCapsule</code> memory crystals, and cross-platform execution.
+          </div>
+          <audio controls preload="metadata">
+            <source src="How_Merkaba01_Runs_Local_AI_in_Rust.mp3" type="audio/mpeg" />
+            Your browser does not support the audio player.
+          </audio>
+        </div>
+      </div>
     </section>
 
     <!-- CORE ARCHITECTURE PILLARS -->
